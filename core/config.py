@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
 
+    db_echo: bool = True
+
     @property
     def DATABASE_URL_asyncpg(self):
         # postgresql+asyncpg://postgres:postgres@localhost:5432/sa
@@ -24,5 +26,6 @@ class Settings(BaseSettings):
         return url
 
     model_config = SettingsConfigDict(env_file=".env")
+
 
 settings = Settings()

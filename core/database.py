@@ -11,6 +11,12 @@ sync_engine = create_engine(
     max_overflow=10,
 )
 
+async_engine = create_engine(
+    url=settings.DATABASE_URL_asyncpg,
+    echo=True,
+    pool_size=5,
+    max_overflow=10,
+)
 
 with sync_engine.connect() as conn:
     res = conn.execute(text("SELECT VERSION()"))
