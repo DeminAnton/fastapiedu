@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     DB_NAME: str
 
     db_echo: bool = True
+    api_v1_prefix: str = "/api/v1"
 
     @property
     def DATABASE_URL_asyncpg(self):
