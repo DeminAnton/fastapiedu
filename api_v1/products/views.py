@@ -8,31 +8,34 @@ from .dependencies import product_by_id
 
 router = APIRouter(tags=["Products"])
 
+
 @router.get(path="/", response_model=list[Product])
 async def get_products(
-    session: AsyncSession = Depends(db_helper.scoped_session_dependency)
-    ):
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
     return await crud.get_products(session=session)
 
 
 @router.get(path="/{product_id}/", response_model=Product)
 async def get_product(
-    product_id: int, 
-    session:  AsyncSession = Depends(db_helper.scoped_session_dependency)
-    ):
+    product_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
     product = await crud.get_product(session=session, product_id=product_id)
     if product is not None:
         return product
     raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Product {product_id} not found"
+        status_code=status.HTTP_404_NOT_FOUND, detail=f"Product {product_id} not found"
     )
+
 
 @router.post(path="/", response_model=Product, status_code=status.HTTP_201_CREATED)
 async def create_product(
     product_in: ProductCreate,
-    session:  AsyncSession = Depends(db_helper.scoped_session_dependency)):
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
     return await crud.create_product(session=session, product_in=product_in)
+
 
 @router.put("/{product_id}/")
 async def update_product(
